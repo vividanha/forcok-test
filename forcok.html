@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forcok logo test</title>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #logo {
+            width: 100vw;
+            height: 97vh;
+            display: block;
+        }
+
+        #colorPicker {
+            width: 100vw;
+            height: 3vh;
+            margin-top: 10px;
+            background: linear-gradient(to right, lime, cyan, blue);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <?xml version="1.0" encoding="UTF-8"?>
+<svg id="logo" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 31.75px;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.7.2, SVG Export Plug-In . SVG Version: 1.2.0 Build 154)  -->
+  <g>
+    <g id="_레이어_1" data-name="레이어_1">
+      <polygon points="1133.38 569.11 1172.28 673.7 1206.86 673.7 1157.11 550.86 1133.38 569.11"/>
+      <line id="line1" class="cls-1" x1="520.21" y1="536.94" x2="630" y2="455.18"/>
+      <path d="M158.93,478.6c4.2-20.02,15.45-87.81,35.07-103.33,13-10.28,32.53-3.65,32.71-3.6l8.55-30.57c-3.13-.89-32.31-9.73-57.01,6.6-28.08,18.57-45.21,115.16-54.56,152.3,0,0-34.18,166.19-35.69,173.7h32.39c4.4-21.79,38.53-195.1,38.53-195.1Z"/>
+      <polygon points="492.67 480.21 449.14 673.7 481.57 673.7 527.88 452.39 502.93 436.35 432.38 488.36 451.22 513.91 492.67 480.21"/>
+      <line id="line2" class="cls-1" x1="37.25" y1="585.72" x2="255.26" y2="423.37"/>
+      <line id="line3" class="cls-1" x1="1090.17" y1="582.02" x2="1245.75" y2="466.17"/>
+      <polygon points="1091.97 384.19 1028.86 673.7 1061.3 673.7 1127.52 357.51 1102.59 341.45 1024.92 398.53 1043.72 424.11 1091.97 384.19"/>
+      <path d="M416.97,533.56c0,63.53-32.31,144.56-113.66,144.56-54.93,0-79.13-36.62-79.13-86.29,0-59.34,34.25-141.11,115.24-141.11,51.64,0,77.55,33.98,77.55,82.85ZM260.5,590.71c0,33.91,12.62,58.14,46.49,58.14,52.67,0,74.28-67.76,74.28-114.02,0-34.75-14.17-54.85-45.96-54.85-51.65,0-74.82,64.64-74.82,110.73Z"/>
+      <path d="M790.09,607.43c-14.35,42.03-44.29,71.65-97.37,71.65-49.62,0-73.91-32.34-73.91-83.1,0-60.85,33.98-145.27,112.29-145.27,56.09,0,74.88,37.8,72.07,76.17h-34.4c.18-21.72-5.53-47.09-41.13-47.09-49.28,0-72.65,69.01-72.65,114.66,0,36.86,15.44,55.7,43.58,55.7s44-14.84,56.56-42.73h34.96Z"/>
+      <path d="M1015.25,533.56c0,63.53-32.31,144.56-113.66,144.56-54.93,0-79.13-36.62-79.13-86.29,0-59.34,34.25-141.11,115.24-141.11,51.64,0,77.55,33.98,77.55,82.85ZM858.77,590.71c0,33.91,12.62,58.14,46.49,58.14,52.67,0,74.28-67.76,74.28-114.02,0-34.75-14.17-54.85-45.96-54.85-51.65,0-74.82,64.64-74.82,110.73Z"/>
+    </g>
+  </g>
+</svg>
+
+    <div id="colorPicker"></div>
+
+    <script>
+        const svg = document.querySelector('#logo');
+        const lines = [
+            { element: document.getElementById('line1') },
+            { element: document.getElementById('line2') },
+            { element: document.getElementById('line3') }
+        ];
+
+        lines.forEach(line => {
+            line.x1 = parseFloat(line.element.getAttribute('x1'));
+            line.y1 = parseFloat(line.element.getAttribute('y1'));
+            line.x2 = parseFloat(line.element.getAttribute('x2'));
+            line.y2 = parseFloat(line.element.getAttribute('y2'));
+            line.dx = line.x2 - line.x1;
+            line.dy = line.y2 - line.y1;
+            line.originalLength = Math.sqrt(line.dx ** 2 + line.dy ** 2);
+            line.angle = Math.atan2(line.dy, line.dx);
+            line.thickness = 28.75;
+            line.isThinning = true;
+        });
+
+        svg.addEventListener('mousemove', (event) => {
+            const svgRect = svg.getBoundingClientRect();
+            const mouseX = event.clientX - svgRect.left;
+            const mouseY = event.clientY - svgRect.top;
+
+            const scaleFactor = 1 + (mouseX / svgRect.width) * 2;
+            const angleFactor = (mouseY / svgRect.height - 0.5) * Math.PI / 4;
+
+            lines.forEach(line => {
+                const newLength = line.originalLength * scaleFactor;
+                const angle = line.angle + angleFactor;
+
+                const newX2 = line.x1 + Math.cos(angle) * newLength;
+                const newY2 = line.y1 + Math.sin(angle) * newLength;
+
+                line.element.setAttribute('x2', newX2);
+                line.element.setAttribute('y2', newY2);
+            });
+        });
+
+        svg.addEventListener('click', () => {
+            lines.forEach(line => {
+                line.thickness += line.isThinning ? -2 : 2;
+
+                if (line.thickness <= 4.75) {
+                    line.thickness = 4.75;
+                    line.isThinning = false;
+                } else if (line.thickness >= 31.75) {
+                    line.thickness = 31.75;
+                    line.isThinning = true;
+                }
+
+                line.element.style.strokeWidth = `${line.thickness}px`;
+            });
+        });
+
+        // Color picker 기능 추가
+        const colorPicker = document.getElementById('colorPicker');
+        colorPicker.addEventListener('click', (event) => {
+            const rect = colorPicker.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const hue = 120 + (x / rect.width) * 120; // 초록(120)에서 파랑(240) 범위만
+            const color = `hsl(${hue}, 100%, 50%)`;
+
+            lines.forEach(line => line.element.style.stroke = color);
+        });
+    </script>
+</body>
+
+</html>
